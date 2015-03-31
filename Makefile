@@ -57,21 +57,21 @@ build: configure protobuf cog icons $(CSHARP_MAIN_PROJECTS)
 dist: build doc dist-python
 	rm -rf $(DIST_DIR)
 	mkdir -p $(DIST_DIR)
-	mkdir -p $(DIST_DIR)/GameData/kRPC
+	mkdir -p $(DIST_DIR)/GameData/kRPC3
 	# Plugin files
-	cp -r $(CSHARP_MAIN_LIBRARIES) $(DIST_LIBS) $(DIST_ICONS) $(DIST_DIR)/GameData/kRPC/
+	cp -r $(CSHARP_MAIN_LIBRARIES) $(DIST_LIBS) $(DIST_ICONS) $(DIST_DIR)/GameData/kRPC3/
 	# Licenses
 	cp LICENSE.txt $(DIST_DIR)/
 	cp lib/protobuf-csharp-port-2.4.1.521-release-binaries/license.txt $(DIST_DIR)/protobuf-csharp-port-license.txt
-	cp LICENSE.txt $(DIST_DIR)/*-license.txt $(DIST_DIR)/GameData/kRPC/
+	cp LICENSE.txt $(DIST_DIR)/*-license.txt $(DIST_DIR)/GameData/kRPC3/
 	# README
 	echo "See https://github.com/djungelorm/krpc/wiki" >dist/README.txt
-	cp $(DIST_DIR)/README.txt $(DIST_DIR)/GameData/kRPC/
+	cp $(DIST_DIR)/README.txt $(DIST_DIR)/GameData/kRPC3/
 	# CHANGES
 	cp CHANGES.txt $(DIST_DIR)/
 	# Version files
 	echo $(SERVER_VERSION) > $(DIST_DIR)/VERSION.txt
-	echo $(SERVER_VERSION) > $(DIST_DIR)/GameData/kRPC/VERSION.txt
+	echo $(SERVER_VERSION) > $(DIST_DIR)/GameData/kRPC3/VERSION.txt
 	# Python client library
 	mkdir $(DIST_DIR)/python-client
 	cp python/dist/krpc-$(PYTHON_CLIENT_VERSION).zip $(DIST_DIR)/python-client/
@@ -87,7 +87,7 @@ dist: build doc dist-python
 
 install: dist
 	test -d "$(KSP_DIR)/GameData"
-	rm -rf "$(KSP_DIR)/GameData/kRPC"
+	rm -rf "$(KSP_DIR)/GameData/kRPC3"
 	cp -r $(DIST_DIR)/GameData/* "$(KSP_DIR)/GameData/"
 
 release: dist test
@@ -152,8 +152,8 @@ gh-pages:
 # Cog --------------------------------------------------------------------------
 
 cog:
-	-python -m cogapp -D nargs=10 -r src/kRPC/Continuations/ParameterizedContinuation.cs
-	-python -m cogapp -D nargs=8 -r src/kRPC/Utils/Tuple.cs
+	-python3 -m cogapp -D nargs=10 -r src/kRPC/Continuations/ParameterizedContinuation.cs
+	-python3 -m cogapp -D nargs=8 -r src/kRPC/Utils/Tuple.cs
 
 # Protocol Buffers -------------------------------------------------------------
 
@@ -234,11 +234,11 @@ logo:
 
 ksp: build TestingTools
 	test -d "$(KSP_DIR)/GameData"
-	rm -rf "$(KSP_DIR)/GameData/kRPC"
-	mkdir "$(KSP_DIR)/GameData/kRPC"
-	cp -r $(CSHARP_MAIN_LIBRARIES) $(DIST_LIBS) $(DIST_ICONS) $(KSP_DIR)/GameData/kRPC/
+	rm -rf "$(KSP_DIR)/GameData/kRPC3"
+	mkdir "$(KSP_DIR)/GameData/kRPC3"
+	cp -r $(CSHARP_MAIN_LIBRARIES) $(DIST_LIBS) $(DIST_ICONS) $(KSP_DIR)/GameData/kRPC3/
 	cp test/TestingTools/bin/$(CSHARP_CONFIG)/TestingTools.dll "$(KSP_DIR)/GameData/"
-	-cp settings.cfg "$(KSP_DIR)/GameData/kRPC/settings.cfg"
+	-cp settings.cfg "$(KSP_DIR)/GameData/kRPC3/settings.cfg"
 	test "!" -f "$(KSP_DIR)/KSP.x86_64" || "$(KSP_DIR)/KSP.x86_64" &
 	test "!" -f "$(KSP_DIR)/KSP.exe" || "$(KSP_DIR)/KSP.exe" &
 	test "!" -d "$(HOME)/.config/unity3d" || tail -f "$(HOME)/.config/unity3d/Squad/Kerbal Space Program/Player.log"
